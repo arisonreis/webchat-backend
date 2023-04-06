@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'express-async-errors';
 import cors from 'cors';
 import http from 'http';
@@ -26,6 +27,13 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     message: 'internal server error',
   });
 });
+=======
+import express, { NextFunction, Request, Response } from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
+const app = express();
+app.use(express.json());
+>>>>>>> 43cebdcddb5d9c418330edb2cc0f1427a92f5c87
 
 export const serverHttp = http.createServer(app);
 
