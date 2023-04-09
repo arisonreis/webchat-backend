@@ -10,9 +10,9 @@ datasource db {
 model UserCreated {
   id         String  @id @default(cuid())
   name       String
-   email      String?
+  email      String? @unique
   perfil_url String?
-
+  
 
   @@map("UserCreated")
 }
