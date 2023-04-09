@@ -17,4 +17,15 @@ describe('http Tests', () => {
     };
     expect(createUser()).resolves.toBe(400);
   });
+
+  test('Should list all users', async () => {
+    const listUsers = (await axios.get('http://localhost:4000/user/list')).data;
+
+
+    
+
+    // expect(listUsers()).resolves.toBeTypeOf()
+
+
+  });
 });
