@@ -3,6 +3,7 @@ import { IUserData } from '../../../shared/types/UserDatacreate';
 import { AppError } from '../../../shared/errors';
 import { prisma } from '../../../shared/prisma';
 import { CreateUserService } from '../services/createUserService';
+import { GetAllUsersService } from '../services/getAllUsersService';
 export class UserController {
   public async create(req: Request, res: Response) {
     const { name, email, perfil_url }: IUserData = req.body;
@@ -28,10 +29,10 @@ export class UserController {
     }
   }
 
-  public async GetAll() {
-    const users = await prisma.userCreated.findMany();
-    if (users) {
-      return users;
+  public async GetAll(req: Request, res: Response) {
+    const getAllUsers = await new GetAllUsersService().execute();
+    if (getAllUsers) {
+      return res.json(getAllUsers);
     }
   }
 }
