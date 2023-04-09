@@ -1,0 +1,3 @@
+{
+    "gitlens.statusBar.format": "${author}, ${agoOrDate}${' via 'pullRequest}${author}"
+}
