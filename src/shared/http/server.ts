@@ -1,5 +1,8 @@
-import { serverHttp} from './http'
-import "../websocket/websocket"
-serverHttp.listen(4000, () => {
-  console.log(`Server running on port ${4000} 🚀`);
+import { Server } from 'socket.io';
+import { serverHttp } from './http';
+
+export const io = new Server(serverHttp, {
+  cors: {
+    origin: 'http://localhost:3000',
+  },
 });

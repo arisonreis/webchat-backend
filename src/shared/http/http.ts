@@ -1,10 +1,10 @@
-<<<<<<< HEAD
-import 'express-async-errors';
-import cors from 'cors';
+require('express-async-errors');
+import '../websocket/websocket';
 import http from 'http';
 import express, { NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 import { routes } from '../routes';
-import { Server } from 'socket.io';
+import { z } from 'zod';
 import { AppError } from '../errors';
 const app = express();
 app.use(
@@ -14,31 +14,25 @@ app.use(
 );
 app.use(express.json());
 app.use(routes);
-
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({
       status: 'error',
       message: error.message,
     });
+  } else if (error instanceof z.ZodError) {
+    // Se ocorreu um erro de validação, retorna uma resposta de erro
+    res.status(400).json({ erro: error.issues });
+  } else {
+    return res.status(500).json({
+      status: 'error',
+      message: 'internal server error',
+    });
   }
-  return res.status(500).json({
-    status: 'error',
-    message: 'internal server error',
-  });
 });
-=======
-import express, { NextFunction, Request, Response } from 'express';
-import http from 'http';
-import { Server } from 'socket.io';
-const app = express();
-app.use(express.json());
->>>>>>> 43cebdcddb5d9c418330edb2cc0f1427a92f5c87
 
 export const serverHttp = http.createServer(app);
 
-export const io = new Server(serverHttp, {
-  cors: {
-    origin: 'http://localhost:3000',
-  },
+serverHttp.listen(4000, () => {
+  console.log(`Server running on port ${4000} 🚀`);
 });
