@@ -6,4 +6,4 @@ const userController = new UserController();
 const userMiddleware = new UserMiddleware();
 export const userRoutes = Router();
 
-userRoutes.post('/create', userController.create);
+userRoutes.post('/create',userMiddleware.execute, userController.create);
