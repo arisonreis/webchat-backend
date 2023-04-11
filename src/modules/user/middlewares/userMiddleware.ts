@@ -30,7 +30,7 @@ export class UserMiddleware {
     ) as IJwtPayload;
 
     req.body = id;
-
+ 
     next();
   }
 
