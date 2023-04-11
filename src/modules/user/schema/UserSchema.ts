@@ -11,3 +11,13 @@ export const dataSchema = z.object({
     .url({ message: 'invalid Format' })
     .optional(),
 });
+
+export const emailSchema = z.object({
+  email: z
+    .string({ invalid_type_error: 'invalid type' })
+    .email({ message: 'invalid Format' }),
+});
+
+export const paramSchema =  z.object({
+  id:  z.string({   invalid_type_error : "Data reported is not a string"}).cuid({ message:"Invaid  Format" })
+})
