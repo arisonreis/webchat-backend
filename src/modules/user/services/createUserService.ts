@@ -23,7 +23,7 @@ export class CreateUserService {
           throw new AppError('An error occurred while creating the user', 500);
         });
       if (newUser) {
-        return true;
+        return newUser;
       }
     }
 
@@ -40,7 +40,7 @@ export class CreateUserService {
         });
 
       if (newUser) {
-        return true;
+        return newUser;
       }
     }
 
@@ -56,7 +56,7 @@ export class CreateUserService {
         });
 
       if (newUser) {
-        return true;
+        return newUser;
       }
     }
 
@@ -79,7 +79,7 @@ export class CreateUserService {
         throw new AppError('An error occurred while creating the user', 500);
       });
     if (newUser) {
-      return true;
+      return newUser;
     }
   }
 }

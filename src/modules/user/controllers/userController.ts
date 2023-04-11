@@ -2,10 +2,9 @@ import type { Request, Response } from 'express';
 import { IUserData } from '../../../shared/types/UserDatacreate';
 import { AppError } from '../../../shared/errors';
 import { CreateUserService } from '../services/createUserService';
-import { GetAllUsersService } from '../services/getAllUsersService';
-import { GetUserByEmailService } from '../services/getUserByEmailService';
-import { GetUserByIdService } from '../services/getUserByIdService';
+import { getUserService } from '../services/getUserService';
 import { DeletUserService } from '../services/deleteUserService';
+import { sign } from 'jsonwebtoken';
 export class UserController {
   public async create(req: Request, res: Response) {
     const { name, email, perfil_url }: IUserData = req.body;
@@ -24,70 +23,40 @@ export class UserController {
       });
 
     if (creatingUser) {
+      const token = sign({ id: creatingUser.id }, process.env.JWT_SECRET, {
+        expiresIn: '7d',
+      });
       return res.status(201).json({
         status: 'sucess',
-        message: 'user created successfully',
+        token: token,
       });
     }
   }
 
-  public async GetAll(req: Request, res: Response) {
-    const getAllUsers = await new GetAllUsersService().execute();
-    if (getAllUsers.length >= 1) {
-      return res.status(200).json(getAllUsers);
-    } else {
-      return res.status(200).json({
-        status: 'sucess',
-        message: 'there are no users in the database',
-      });
-    }
-  }
+  public async Get(req: Request, res: Response) {
+    const id = req.body;
 
-  public async GetUserByEmail(req: Request, res: Response) {
-    const { email } = req.params;
+    const getUser = await new getUserService().execute({ id: id });
 
-    const getUserByEmail = await new GetUserByEmailService().execute({ email });
-
-    if (getUserByEmail) {
-      return res.status(200).json(getUserByEmail);
-    }
-
-    if (!getUserByEmail) {
-      return res.status(400).json({
-        status: 'error',
-        message: 'User not found',
-      });
-    }
-  }
-
-  public async GetById(req: Request, res: Response) {
-    const { id } = req.params;
-    const getUserById = await new GetUserByIdService().execute({ id: id });
-
-    if (getUserById) {
-      return res.status(200).json(getUserById);
-    } else {
-      return res.status(400).json({
-        status: 'error',
-        message: 'user not found',
-      });
+    if (getUser) {
+      return res.status(200).json(getUser);
     }
   }
 
   public async Delete(req: Request, res: Response) {
     const { id } = req.params;
 
-    const userExists = await new GetUserByIdService().execute({ id: id });
+    const userExists = await new getUserService().execute({ id: id });
 
     if (userExists) {
       const deletingUser = await new DeletUserService().execute({ id: id });
       if (deletingUser) {
         return res.status(202).send();
-      }else{
+      } else {
         return res.status(400).json({
-          status:"error",
-          message:"User not found",
-        })
+          status: 'error',
+          message: 'User not found',
+        });
       }
     }
   }

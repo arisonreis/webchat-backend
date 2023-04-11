@@ -4,7 +4,7 @@ import { prisma } from '../../../shared/prisma';
 interface IUserIdParams {
   id: string;
 }
-export class GetUserByIdService {
+export class getUserService {
   async execute({ id }: IUserIdParams) {
     const getUser = await prisma.userCreated
       .findUnique({
@@ -19,7 +19,7 @@ export class GetUserByIdService {
     if (getUser) {
       return getUser;
     } else {
-      throw new AppError('User not found')
+      throw new AppError('User not found');
     }
   }
 }

@@ -7,17 +7,7 @@ const userMiddleware = new UserMiddleware();
 export const userRoutes = Router();
 
 userRoutes.post('/create', userMiddleware.validateBody, userController.create);
-userRoutes.get('/list', userController.GetAll);
-userRoutes.get(
-  '/get-by-email/:email',
-  userMiddleware.validateEmailParam,
-  userController.GetUserByEmail
-);
-userRoutes.get(
-  '/get-by-id/:id',
-  userMiddleware.validateParams,
-  userController.GetById
-);
+userRoutes.get('/get', userMiddleware.AuthValidator, userController.Get);
 userRoutes.delete(
   '/delete/:id',
   userMiddleware.validateParams,

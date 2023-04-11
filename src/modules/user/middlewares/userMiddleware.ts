@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
-import { paramSchema, dataSchema, emailSchema } from '../schema/UserSchema';
+import { paramSchema, dataSchema } from '../schema/UserSchema';
+import { verify } from 'jsonwebtoken';
 import { AppError } from '../../../shared/errors';
 export class UserMiddleware {
   validateBody(req: Request, res: Response, next: NextFunction) {
@@ -15,8 +16,24 @@ export class UserMiddleware {
     next();
   }
 
-  validateEmailParam(req: Request, res: Response, next: NextFunction) {
-    emailSchema.parse(req.params);
+  async AuthValidator(req: Request, res: Response, next: NextFunction) {
+    interface IJwtPayload {
+      id: string;
+    }
+
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      throw new AppError('Unauthorized', 401);
+    }
+
+    const token = authorization.split(' ')[1];
+    const { id }: IJwtPayload = verify(
+      token,
+      process.env.JWT_SECRET
+    ) as IJwtPayload;
+
+    req.body = id;
     next();
   }
 }

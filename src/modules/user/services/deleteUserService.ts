@@ -1,13 +1,13 @@
 import { AppError } from '../../../shared/errors';
 import { prisma } from '../../../shared/prisma';
-import { GetUserByIdService } from './getUserByIdService';
+import {  getUserService} from './getUserService';
 interface IUserIdParams {
   id: string;
 }
 
 export class DeletUserService {
   async execute({ id }: IUserIdParams) {
-    const userExists = await new GetUserByIdService().execute({ id: id });
+    const userExists = await new getUserService().execute({ id: id });
     if (userExists) {
       const deleting = await prisma.userCreated
         .delete({
