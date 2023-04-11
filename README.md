@@ -1,4 +1,5 @@
 Receber dados do usuário (x)
-criar no banco de dados um user com base nos dados ()
-retornar um token se criado ()
+criar no banco de dados um user com base nos dados (x)
+retornar um token se criado (x)
 apagar o usuário após logout ()
+apaga o usuário após o token expirar()
