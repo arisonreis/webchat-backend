@@ -1,11 +1,11 @@
 import { prisma } from '../../../shared/prisma';
 import type { IUserData } from '../../../shared/types/UserDatacreate';
 import { AppError } from '../../../shared/errors';
-import { GetUserByEmail } from './getUserByEmail';
+import { GetUserByEmailService } from './getUserByEmailService';
 export class CreateUserService {
   async execute({ name, email, perfil_url }: IUserData) {
     if (name && email && !perfil_url) {
-      const checkingForExists = await new GetUserByEmail().execute({
+      const checkingForExists = await new GetUserByEmailService().execute({
         email: email,
       });
 
@@ -60,7 +60,7 @@ export class CreateUserService {
       }
     }
 
-    const checkingForExists = await new GetUserByEmail().execute({
+    const checkingForExists = await new GetUserByEmailService().execute({
       email: email,
     });
 
