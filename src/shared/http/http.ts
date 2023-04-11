@@ -7,11 +7,7 @@ import { routes } from '../routes';
 import { z } from 'zod';
 import { AppError } from '../errors';
 const app = express();
-app.use(
-  cors({
-    methods: ['POST', 'GET'],
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use(routes);
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
