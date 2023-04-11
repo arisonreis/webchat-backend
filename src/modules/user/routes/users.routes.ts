@@ -9,7 +9,7 @@ export const userRoutes = Router();
 userRoutes.post('/create', userMiddleware.validateBody, userController.create);
 userRoutes.get('/get', userMiddleware.AuthValidator, userController.Get);
 userRoutes.delete(
-  '/delete/:id',
+  '/delete',
   userMiddleware.validateParams,
   userController.Delete
 );

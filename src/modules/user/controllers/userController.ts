@@ -44,19 +44,14 @@ export class UserController {
   }
 
   public async Delete(req: Request, res: Response) {
-    const { id } = req.params;
+    const id = req.body;
 
     const userExists = await new getUserService().execute({ id: id });
 
     if (userExists) {
       const deletingUser = await new DeletUserService().execute({ id: id });
       if (deletingUser) {
-        return res.status(202).send();
-      } else {
-        return res.status(400).json({
-          status: 'error',
-          message: 'User not found',
-        });
+        return res.json(204);
       }
     }
   }

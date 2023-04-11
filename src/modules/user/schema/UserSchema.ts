@@ -12,10 +12,5 @@ export const dataSchema = z.object({
     .optional(),
 });
 
-export const paramSchema = z.object({
-  id: z
-    .string({ invalid_type_error: 'Data reported is not a string' })
-    .cuid({ message: 'Invaid  Format' }),
-});
 
 
