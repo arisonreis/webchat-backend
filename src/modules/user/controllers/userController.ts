@@ -2,8 +2,8 @@ import type { Request, Response } from 'express';
 import { IUserData } from '../../../shared/types/UserDatacreate';
 import { AppError } from '../../../shared/errors';
 import { CreateUserService } from '../services/createUserService';
-import { getUserService } from '../services/getUserService';
-import { DeletUserService } from '../services/deleteUserService';
+import { GetUserService } from '../services/getUserService';
+import { DeleteUserService } from '../services/deleteUserService';
 import { sign } from 'jsonwebtoken';
 export class UserController {
   public async create(req: Request, res: Response) {
@@ -36,7 +36,7 @@ export class UserController {
   public async Get(req: Request, res: Response) {
     const id = req.body;
 
-    const getUser = await new getUserService().execute({ id: id });
+    const getUser = await new GetUserService().execute({ id: id });
 
     if (getUser) {
       return res.status(200).json(getUser);
@@ -46,10 +46,10 @@ export class UserController {
   public async Delete(req: Request, res: Response) {
     const id = req.body;
 
-    const userExists = await new getUserService().execute({ id: id });
+    const userExists = await new GetUserService().execute({ id: id });
 
     if (userExists) {
-      const deletingUser = await new DeletUserService().execute({ id: id });
+      const deletingUser = await new DeleteUserService().execute({ id: id });
       if (deletingUser) {
         return res.json(204);
       }

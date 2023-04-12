@@ -4,7 +4,7 @@ import { prisma } from '../../../shared/prisma';
 interface IUserIdParams {
   id: string;
 }
-export class getUserService {
+export class GetUserService {
   async execute({ id }: IUserIdParams) {
     const getUser = await prisma.userCreated
       .findUnique({
