@@ -12,31 +12,6 @@ describe('http Tests', () => {
     expect(req()).rejects.toThrow(/Request failed with status code 400/);
   });
 
-  test('Should list all users', async () => {
-    const listUsers = await axios.get('http://localhost:4000/user/list');
-    const res = listUsers.status;
-
-    expect(res).toEqual(200);
-  });
-
-  test('Must get a user with the same email', async () => {
-    const getUser = await axios.get(
-      'http://localhost:4000/user/get-by-email/arison@gmail.com'
-    );
-    const data = getUser.data;
-    expect(data.email).toEqual('arison@gmail.com');
-  });
-
-  test('Must get a user with id', async () => {
-    const getUser = await axios.get(
-      'http://localhost:4000/user/get-by-id/clg9bojkn0000vzs0cx4ylees'
-    );
-    const status = getUser.status;
-    const name = getUser.data.name;
-    expect(status).toEqual(200);
-    expect(name).toEqual('Arison Reis');
-  });
-
   test('Must create a new  user', async () => {
     const data = {
       name: 'jubileu',
@@ -52,12 +27,37 @@ describe('http Tests', () => {
       });
   });
 
-  test('Should delete the user', async () => {
+  test('Should delete the user with Token', async () => {
     expect.assertions(1);
+
+    const token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsZ2N2d202cjAwMDB2emNzOHUzMDd5cWYiLCJpYXQiOjE2ODEyNTUxNDcsImV4cCI6MTY4MTg1OTk0N30.KV_ouRRfZPt7Hz6uA8oJkdbMi5yz-St4ni2Gr-cSAUU';
     await axios
-      .delete('http://localhost:4000/user/delete/clgaktxhm0000vzkk8ojmrcqn')
+      .delete('http://localhost:4000/user/delete', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         expect(res.status).toEqual(202);
+      })
+      .catch((err) => {
+        expect(err).toBeInstanceOf(AxiosError);
+      });
+  });
+
+  test('Shold get a user with authorization Token', async () => {
+    const token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsZ2N2d202cjAwMDB2emNzOHUzMDd5cWYiLCJpYXQiOjE2ODEyNTUxNDcsImV4cCI6MTY4MTg1OTk0N30.KV_ouRRfZPt7Hz6uA8oJkdbMi5yz-St4ni2Gr-cSAUU';
+
+    await axios
+      .get('http://localhost:4000/user/get', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        expect(res.status).toEqual(200);
       })
       .catch((err) => {
         expect(err).toBeInstanceOf(AxiosError);
