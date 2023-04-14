@@ -9,8 +9,5 @@ export const dataSchema = z.object({
   perfil_url: z
     .string({ invalid_type_error: 'invalid type' })
     .url({ message: 'invalid Format' })
-    .optional(),
+    .optional()
 });
-
-
-

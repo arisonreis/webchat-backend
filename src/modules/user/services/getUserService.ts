@@ -6,7 +6,7 @@ interface IUserIdParams {
 }
 export class GetUserService {
   async execute({ id }: IUserIdParams) {
-    const getUser = await prisma.userCreated
+    const getUser = await prisma.user
       .findUnique({
         where: {
           id: id,

@@ -8,7 +8,7 @@ interface IDataEmail {
 export class GetUserByEmailService {
   async execute({ email }: IDataEmail) {
     if (email) {
-      const searchUser = await prisma.userCreated
+      const searchUser = await prisma.user
         .findUnique({
           where: {
             email: email,

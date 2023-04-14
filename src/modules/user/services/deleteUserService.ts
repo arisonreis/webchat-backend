@@ -9,7 +9,7 @@ export class DeleteUserService {
   async execute({ id }: IUserIdParams) {
     const userExists = await new GetUserService().execute({ id: id });
     if (userExists) {
-      const deleting = await prisma.userCreated
+      const deleting = await prisma.user
         .delete({
           where: {
             id: id,

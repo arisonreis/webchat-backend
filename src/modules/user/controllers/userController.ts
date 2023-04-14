@@ -22,15 +22,13 @@ export class UserController {
         throw new AppError(err.message, err.status);
       });
 
-    if (creatingUser) {
-      const token = sign({ id: creatingUser.id }, process.env.JWT_SECRET, {
-        expiresIn: '7d',
-      });
-      return res.status(201).json({
-        status: 'sucess',
-        token: token,
-      });
-    }
+    const token = sign({ id: creatingUser.id }, process.env.JWT_SECRET, {
+      expiresIn: '7d',
+    });
+    return res.status(201).json({
+      status: 'sucess',
+      token: token,
+    });
   }
 
   public async Get(req: Request, res: Response) {

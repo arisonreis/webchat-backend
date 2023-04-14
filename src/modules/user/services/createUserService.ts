@@ -12,7 +12,7 @@ export class CreateUserService {
       if (checkingForExists) {
         throw new AppError('user already exists', 400);
       }
-      const newUser = await prisma.userCreated
+      const newUser = await prisma.user
         .create({
           data: {
             name: name,
@@ -28,7 +28,7 @@ export class CreateUserService {
     }
 
     if (name && perfil_url && !email) {
-      const newUser = await prisma.userCreated
+      const newUser = await prisma.user
         .create({
           data: {
             name: name,
@@ -45,7 +45,7 @@ export class CreateUserService {
     }
 
     if (name && !email && !perfil_url) {
-      const newUser = await prisma.userCreated
+      const newUser = await prisma.user
         .create({
           data: {
             name: name,
@@ -67,7 +67,7 @@ export class CreateUserService {
     if (checkingForExists) {
       throw new AppError('user already exists', 400);
     }
-    const newUser = await prisma.userCreated
+    const newUser = await prisma.user
       .create({
         data: {
           name: name,
