@@ -5,6 +5,7 @@ import { CreateUserService } from '../services/createUserService';
 import { GetUserService } from '../services/getUserService';
 import { DeleteUserService } from '../services/deleteUserService';
 import { sign } from 'jsonwebtoken';
+import { GetUserByEmailService } from '../services/getUserByEmailService';
 export class UserController {
   public async create(req: Request, res: Response) {
     const { name, email, perfil_url }: IUserData = req.body;
@@ -52,5 +53,15 @@ export class UserController {
         return res.json(204);
       }
     }
+  }
+
+  public async GetByEmail(req: Request, res: Response) {
+    const { email } = req.body;
+
+    const user = await new GetUserByEmailService().execute({ email: email });
+    if (user) {
+      return res.status(200).send();
+    }
+    return res.status(400).send();
   }
 }
