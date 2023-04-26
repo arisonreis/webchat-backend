@@ -13,3 +13,8 @@ userRoutes.delete(
   userMiddleware.validateParams,
   userController.Delete
 );
+userRoutes.post(
+  '/get-by-email',
+  userMiddleware.validateBody,
+  userController.GetByEmail
+);
